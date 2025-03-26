@@ -4,7 +4,6 @@ import java.util.*;
 public class bj17070{
 
     static int[][] board;
-    static int[][][] dp;
     static int n, ans;
 
     public static void main(String[] args) throws IOException{
@@ -13,43 +12,74 @@ public class bj17070{
         
         n = Integer.parseInt(br.readLine());
         board = new int[n][n];
-        dp = new int[n][n][3];
 
         for(int i = 0; i<n; i++){
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j<n; j++){
-                board[i][j] = Integer.parseInt(st.nextToken());
+                board[j][i] = Integer.parseInt(st.nextToken());
             }
         }
 
-        dp[0][1][0] = 1;
-
-        for(int i = 0; i<n; i++){
-            for(int j = 2; j<n; j++){
-                if(board[i][j] == 1) continue;
-
-                dp[i][j][0] = dp[i][j - 1][0] + dp[i][j - 1][1];
-
-                if(i - 1 >= 0){
-                    dp[i][j][2] = dp[i - 1][j][2] + dp[i - 1][j][1];
-                }
-
-                if(i - 1 >= 0 && j - 1 >= 0){
-                    if(board[i - 1][j] == 0 && board[i][j - 1] == 0){
-                        dp[i][j][1] = dp[i - 1][j - 1][0] + dp[i - 1][j - 1][1] + dp[i - 1][j - 1][2];
-                    }
-                }
-                
-            }
-        }
-
-        ans = dp[n-1][n-1][0] + dp[n-1][n-1][1] + dp[n-1][n-1][2];
+        ans = 0;
+        dfs(1, 0, 0);
 
         System.out.println(ans);
+
     }
 
+    static void dfs(int x, int y, int dir){
+        /* if dir == 0 horizental
+           if dir == 1 diagonal
+           if dir == 2 vertical */
 
+        if(x == n-1 && y == n-1){
+            ans++;
+            return;
+        }
 
+        switch(dir){
+            case 0:
+                hor(x, y);
+                break;
+            case 1:
+                dia(x, y);
+                break;
+            case 2:
+                ver(x, y);
+                break;
+        }
+
+    }
+
+    static void hor(int x, int y){
+        if(x < n-1 && board[x+1][y] == 0){
+            dfs(x+1, y, 0);
+        }
+        if(x < n-1 && y < n-1 && board[x+1][y] == 0 && board[x+1][y+1] == 0 && board[x][y+1] == 0){
+            dfs(x+1, y+1, 1);
+        }
+    }
+
+    static void dia(int x, int y){
+        if(x < n-1 && board[x+1][y] == 0){
+            dfs(x+1, y, 0);
+        }
+        if(x < n-1 && y < n-1 && board[x+1][y] == 0 && board[x+1][y+1] == 0 && board[x][y+1] == 0){
+            dfs(x+1, y+1, 1);
+        }
+        if(y < n-1 && board[x][y+1] == 0){
+            dfs(x, y+1, 2);
+        }
+    }
+
+    static void ver(int x, int y){
+        if(x < n-1 && y < n-1 && board[x+1][y] == 0 && board[x+1][y+1] == 0 && board[x][y+1] == 0){
+            dfs(x+1, y+1, 1);
+        }
+        if(y < n-1 && board[x][y+1] == 0){
+            dfs(x, y+1, 2);
+        }
+    }
 
     
 }
