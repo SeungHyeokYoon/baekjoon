@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class swea23793{
-
+    //fail
     static int[] row;
     static int[] ans;
 
