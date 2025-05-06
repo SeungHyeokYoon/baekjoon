@@ -2,53 +2,39 @@ import java.io.*;
 import java.util.*;
 
 public class swea23793{
-    //fail
-    static int[] row;
-    static int[] ans;
+    
+    static int N;
+    static long[] CNT;
+    static ArrayList<ArrayList<Byte>> MAP;
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         StringBuilder sb = new StringBuilder();
-        
+
         int T = Integer.parseInt(br.readLine());
-        while(T-- > 0){
-            int n = Integer.parseInt(br.readLine());
-            row = new int[n];
-            ans = new int[3];
+        for(int tc = 0; tc<T; tc++){
+            N = Integer.parseInt(br.readLine());
+            CNT = new long[3];
+            MAP = new ArrayList<>();
 
+            MAP.add(new ArrayList<>());
             st = new StringTokenizer(br.readLine());
-            for(int i = 0; i<n; i++){
-                row[i] = Integer.parseInt(st.nextToken()); 
-                ans[row[i]]++;
+            for(int i = 0; i < N; i++){
+                byte val = Byte.parseByte(st.nextToken());
+                MAP.get(0).add(val);
+                CNT[val]++;
             }
 
-            for(int i = 1; i<n; i++){
-                int num = Integer.parseInt(br.readLine());
-                ans[num]++;
-
-                for(int j = 1; j<n; j++){
-                    int val = mex(num, row[j]);
-                    ans[val]++;
-                    num = val;
-                    row[j] = val;
-                }
+            for (int i = 1; i < N; i++) {
+                byte val = Byte.parseByte(br.readLine());
+                ArrayList<Byte> row = new ArrayList<>();
+                row.add(val);
+                CNT[val]++;
+                MAP.add(row);
             }
-
-            sb.append(ans[0]).append(" ").append(ans[1]).append(" ").append(ans[2]).append('\n');
-
         }
 
-        System.out.println(sb);
     }
-
-    static int mex(int a, int b){
-        int mask = (1 << a) | (1 << b);
-        if ((mask & 1) == 0) return 0;
-        if ((mask & 2) == 0) return 1;
-        return 2;
-    }
-
-
     
 }

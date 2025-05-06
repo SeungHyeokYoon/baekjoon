@@ -6,14 +6,12 @@ public class swea1249{
     static int[] dx = {0, 0, -1, 1};
     static int[] dy = {1, -1, 0, 0};
     static int[][] board;
+    static int[][] dp;
     static boolean[][] visited;
     static int n;
-    static int ans;
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
         
         int T = Integer.parseInt(br.readLine());
 
@@ -21,6 +19,7 @@ public class swea1249{
             n = Integer.parseInt(br.readLine());
             board = new int[n][n];
             visited = new boolean[n][n];
+            dp = new int[n][n];
 
             for(int j = 0; j<n; j++){
                 String str = br.readLine();
@@ -29,34 +28,45 @@ public class swea1249{
                 }
             }
 
-            ans = Integer.MAX_VALUE;
-            visited[0][0] = true;
-            dfs(0, 0, (int)board[0][0]);
+            bfs();
 
-            System.out.println("#" + i + " " + ans);
+            System.out.println("#" + i + " " + dp[n-1][n-1]);
 
 
         }
     }
 
-    static void dfs(int x, int y, int sum){
-        if(x == n-1 && y == n-1){
-            ans = Math.min(sum, ans);
-            return;
-        }
+    static void bfs(){
+        Queue<Hole> q = new LinkedList<>();
+        q.add(new Hole(0, 0));
+        visited[0][0] = true;
 
-        for(int i = 0; i<4; i++){
-            int nx = x + dx[i];
-            int ny = y + dy[i];
+        while(!q.isEmpty()){
+            Hole now = q.poll();
 
-            if(nx >= 0 && ny >= 0 && nx < n && ny < n && !visited[nx][ny]){
-                visited[nx][ny] = true;
-                dfs(nx, ny, sum + (int)board[nx][ny]);
-                visited[nx][ny] = false;
+            for(int i = 0; i<4; i++){
+                int nx = now.x + dx[i];
+                int ny = now.y + dy[i];
+
+                if(nx >= 0 && ny >= 0 && nx < n && ny < n){
+                    if(!visited[ny][nx] || dp[ny][nx] > dp[now.y][now.x] + board[ny][nx]){
+                        visited[ny][nx] = true;
+                        dp[ny][nx] = dp[now.y][now.x] + board[ny][nx];
+                        q.add(new Hole(nx, ny));
+                    }
+                }
             }
         }
+    }
 
+    static class Hole{
+        int x;
+        int y;
 
+        Hole(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
     }
 
 
