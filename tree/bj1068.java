@@ -24,6 +24,10 @@ public class bj1068{
             int parent = Integer.parseInt(st.nextToken());
 
             if(i == remove){
+                if(parent == -1){
+                    System.out.println(0);
+                    return;
+                }
                 continue;
             }
 
@@ -33,11 +37,6 @@ public class bj1068{
             else{
                 graph[parent].add(i);
             }
-        }
-
-        if(remove == root){
-            System.out.println(0);
-            return;
         }
 
         ans = 0;
