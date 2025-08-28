@@ -30,6 +30,8 @@ public class Main {
             min = Math.min(min, stack.size());
             return;
         }
+        
+        if(stack.size() >= min) return;
 
         for(int x = 0; x<10; x++){
             if(paper[y][x] == 1){
