@@ -55,6 +55,7 @@ public class Main{
 
             if(now.x == n-1 && now.y == n-1){
                 visited[now.y][now.x] = Math.min(visited[now.y][now.x], now.value);
+                continue;
             }
             if(now.value > visited[n-1][n-1]) continue;
 
