@@ -6,6 +6,7 @@ public class Main {
     static int n, m;
     static ArrayList<Node>[] map;
     static int[] dist;
+    static boolean[] visited;
 
     static class Node implements Comparable<Node>{
         int end, weight;
@@ -31,6 +32,7 @@ public class Main {
 
         map = new ArrayList[n+1];
         dist = new int[n+1];
+        visited = new boolean[n+1];
 
         for(int i = 1; i<=n; i++){
             map[i] = new ArrayList<>();
@@ -61,7 +63,8 @@ public class Main {
         while(!pq.isEmpty()){
             Node now = pq.poll();
 
-            if(dist[now.end] < now.weight) continue;
+            if(visited[now.end]) continue;
+            visited[now.end] = true;
 
             for(Node next : map[now.end]){
                 if(dist[next.end] > now.weight + next.weight){
