@@ -11,8 +11,7 @@ FROM (
         USER_ID,
         SALES_AMOUNT
     FROM ONLINE_SALE
-    WHERE SALES_DATE >= '2022-03-01'
-      AND SALES_DATE <  '2022-04-01'
+    WHERE year(SALES_DATE) = 2022 and month(SALES_DATE) = 3
 
     UNION ALL
 
